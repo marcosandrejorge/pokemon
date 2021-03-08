@@ -1,32 +1,297 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div id="app">
+        <router-view />
     </div>
-    <router-view/>
-  </div>
 </template>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+$cor-primaria: rgb(30, 22, 141);
+$cor-segundaria: rgb(219, 136, 28);
+$cor-fundo: #f9f9f9;
+$font-padrao: Avenir, Helvetica, Arial, sans-serif;
+$ultra-pequeno: 321px;
+$medio: 768px;
+
+@mixin mixin-resetar-elemento {
+    padding: 0;
+    margin: 0;
 }
 
-#nav {
-  padding: 30px;
+@mixin mixin-padrao-elemento {
+    @include mixin-resetar-elemento;
+    height: 30px;
+    outline: none;
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+@mixin mixin-box-shadow {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
 
-    &.router-link-exact-active {
-      color: #42b983;
+@mixin mixin-cursor {
+    cursor: pointer;
+}
+
+@mixin mixin-card {
+    @include mixin-resetar-elemento;
+    @include mixin-box-shadow;
+    border-radius: 2px;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    background-color: #fff;
+}
+
+body {
+    background-color: $cor-fundo;
+}
+
+.btn {
+    @include mixin-padrao-elemento;
+    @include mixin-cursor;
+    padding: 7px;
+    border: none;
+    height: 32px;
+}
+
+.btn--buscar {
+    @extend .btn;
+    color: #fff;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: $cor-primaria;
+    height: 42px;
+    width: 100px;
+
+    @media screen and (max-width: $ultra-pequeno) {
+        height: 32px;
+        width: 70px;
     }
-  }
+    @media screen and (max-width: $medio) {
+        width: 80px;
+    }
+    @media screen and (min-width: $medio) {
+        width: 100px;
+    }
+}
+
+.btn--ataque {
+    @extend .btn--buscar;
+    background-color: $cor-segundaria;
+    border-radius: 0%;
+    height: 50px;
+    float: left;
+    margin-right: 5px;
+    &:hover {
+        background-color: $cor-primaria;
+    }
+}
+
+.btn--carrosel {
+    @extend .btn;
+    color: #fff;
+    background-color: $cor-segundaria;
+
+    @media screen and (max-width: $medio) {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    @media screen and (min-width: $medio) {
+        width: 160px;
+    }
+}
+
+.btn--carrosel--1 {
+    @extend .btn--carrosel;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-right: 1px solid #fff;
+}
+
+.btn--carrosel--2 {
+    @extend .btn--carrosel;
+    border-left: 1px solid #fff;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+input {
+    @include mixin-padrao-elemento;
+    border: 1px solid #000;
+}
+
+.input-buscar {
+    @extend input;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    height: 40px;
+    padding-left: 10px;
+
+    @media screen and (max-width: $ultra-pequeno) {
+        height: 30px;
+    }
+    @media screen and (max-width: $medio) {
+        width: calc(90% - 80px);
+    }
+    @media screen and (min-width: $medio) {
+        width: calc(40% - 100px);
+    }
+}
+
+.container {
+    width: 70%;
+    margin: 0 auto;
+
+    @media screen and (max-width: 1024px) {
+        width: 100%;
+    }
+}
+
+.grid {
+    display: grid;
+    grid-column-gap: 24px;
+    grid-row-gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.grid--carrosel {
+    @extend .grid;
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.card {
+    @include mixin-card;
+    display: flex;
+    padding: 24px;
+    cursor: initial;
+
+    .text {
+        display: block;
+        text-align: left;
+    }
+
+    img {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .badge {
+        background-color: $cor-primaria;
+        padding: 5px;
+        border-radius: 40%;
+        color: #fff;
+    }
+}
+
+.card--grid {
+    @extend .card;
+    @include mixin-cursor;
+    display: block;
+
+    &:hover {
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+            0 10px 10px rgba(0, 0, 0, 0.22);
+    }
+}
+
+.card--grid-carrosel {
+    @extend .card--grid;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transition: all 0.2s 0.2s ease-in-out;
+    transition: all 0.2s 0.2s ease-in-out;
+}
+
+.modal.ativa {
+    @extend .modal;
+    opacity: 1;
+    visibility: initial;
+}
+
+.corpo-modal {
+    @include mixin-box-shadow;
+    padding: 10px;
+    max-width: 600px;
+    min-width: 360px;
+    max-height: 85%;
+    overflow: auto;
+    position: absolute;
+    top: 6%;
+    left: 50%;
+    z-index: 2;
+    opacity: 0;
+    border-radius: 3px;
+    background: #fff;
+    -webkit-transform: translate(-50%, 0);
+    -ms-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+    -webkit-transition: all 0.5s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    padding: 20px;
+
+    p {
+        padding-top: 10px;
+        text-align: justify;
+    }
+
+    @media screen and (max-width: $ultra-pequeno) {
+        top: 7%;
+    }
+
+    @media screen and (max-width: $medio) {
+        padding: 10px 5%;
+        min-width: 88%;
+    }
+}
+
+.corpo-modal.ativa {
+    @extend .corpo-modal;
+    opacity: 1;
+}
+
+.fechar-modal {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.fechar-modal:after {
+    @include mixin-cursor;
+    @include mixin-box-shadow;
+    content: "X";
+    float: right;
+    margin: 5px 5px 0 0;
+    width: 30px;
+    height: 30px;
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    line-height: 30px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+}
+
+#app {
+    font-family: $font-padrao;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
 }
 </style>
