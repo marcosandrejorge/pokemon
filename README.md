@@ -19,7 +19,7 @@ yarn test:unit
 yarn test:e2e
 ```
 
-### Aplicação na Amazon(S3) - Entrega contínua
+### Aplicação na Amazon(S3)
 ```
 http://marcospokemon.s3-website.us-east-2.amazonaws.com/#/
 ```
