@@ -1,6 +1,6 @@
 <template>
     <div class="container grid" v-if="!carregando">
-        <div class="card">
+        <div class="card--img">
             <img :src="carta.images.large" :alt="carta.name" />
         </div>
         <div class="card">

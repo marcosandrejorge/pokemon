@@ -177,6 +177,12 @@ input {
     }
 }
 
+.card--img {
+    @extend .card;
+    box-shadow: none;
+    background-color: transparent;
+}
+
 .card--grid {
     @extend .card;
     @include mixin-cursor;
